@@ -42,9 +42,52 @@ public:
 
 - `return NULL` ではなく `break` で良い。
 
-- 普通に、ポインタを返せば良いことを理解した。ポインタを返すことはノードを返すことと同義。問題文には "Note that `pos` is not passed as a parameter" とあるが、その通り。Unordered set は index を持たない (c.f., hash tables)。
+- 普通に、ポインタを返せば良いことを理解した。ポインタを返すことはノードを返すことと同義。問題文には "Note that `pos` is not passed as a parameter" とあるが、その通り。Set は index を持たない (c.f., hash tables)。
 
 ## 2回目
 
 OK。
 
+# Step 2
+
+## 勉強
+
+- ウサギと亀を使った解法もある。この場合、141 のように cycle を検出した後に slow pointer を出発点に戻すと衝突点が結節点と一致する。
+    ```cpp
+    class Solution {
+    public:
+        ListNode *detectCycle(ListNode *head) {
+            if (!head || !head->next) return nullptr;
+
+            ListNode* slow = head;
+            ListNode* fast = head;
+
+            // Phase 1: detect cycle
+            while (fast && fast->next) {
+                slow = slow->next;
+                fast = fast->next->next;
+                if (slow == fast) break;
+            }
+
+            if (!fast || !fast->next) return nullptr;
+
+            // Phase 2: find entry
+            slow = head;
+            while (slow != fast) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+
+            return slow;
+        }
+    };
+    ```
+
+- [`contains`](https://en.cppreference.com/w/cpp/container/set/contains.html) を使う方法があるらしい。使うと↓のようになる。`count` より意味が直観的になるように思う。
+    ```cpp
+    if (visited.contains(node_curr)) {
+        return node_curr;
+    }
+    ```
+
+    - ちなみに `contains` の計算量は O(log(N)) とのこと。ChatGPT に聞くと、赤黒木を使うことで最悪計算量を抑えているらしい。
