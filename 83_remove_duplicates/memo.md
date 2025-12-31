@@ -148,3 +148,7 @@ public:
 - どちらかというと、two pointer 版といった方がわかりやすい？`head`は固定した上で、もう一個の pointer （`runner`）を「走らせ」て重複を探す。重複の探索を `head` を基準にやるか `runner` を基準にやるかが違う。
 
 - list がソートされていない場合のために、`runner` vs. `head` をやっている。
+
+# Step 3
+
+問題なくできた。
