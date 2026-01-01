@@ -97,3 +97,52 @@ public:
   こう考えるとしっくりくるが...。
 
   - とりあえず、こういう風な理解に到達した後はスラスラと書けた。
+
+# Step 2
+
+## コード
+
+最終形を step2.cpp に書いた。
+
+## 勉強
+
+- [他の人のコード](https://github.com/hemispherium/LeetCode_Arai60/pull/5/commits/a1e0bb0ed12ad3b03421cb10309fa8a8246d5e99)で `dummy(-1000)`を使っているのを見かけた。`-100 <= Node.val <= 100` という制約から外れるようにしているのだと理解した (参照：[このコメント](https://github.com/5103246/LeetCode_Arai60/pull/4/commits/a5301e9db863d53d1d6c4e9925cff2917555e970#r2287948164))。
+
+- [このコメント](https://github.com/5103246/LeetCode_Arai60/pull/4/commits/a5301e9db863d53d1d6c4e9925cff2917555e970#r2286491895)を見る。重複のあるノードを飛ばした後にそのノードのために使用していたメモリを解放するという作業が存在することがわかった。ノードは heap に置かれているので、ちゃんと削除してあげると良い。
+
+  - [ここ](https://discord.com/channels/1084280443945353267/1366778718705553520/1377689037208289471)でいうデザインの話なのか？
+
+  - `delete` を使ってみる。
+
+- 名付けの問題が色々指摘されている。
+
+  - [Google Style Guide](https://google.github.io/styleguide/cppguide.html#General_Naming_Rules)より。`node_curr`は`node_current`として良いかも。同様に `val` → `val_duplicate`。
+
+- ネストが深すぎるかも？たとえば次のコードと比べてどちらが見やすいだろうか。ただ、判断がつかないのでとりあえずはこのまま。
+  ```cpp
+  class Solution {
+  public:
+      ListNode* deleteDuplicates(ListNode* head) {
+          ListNode dummy;
+          dummy.next = head;
+
+          ListNode* prev = &dummy;
+          ListNode* curr = head;
+          while (curr) {
+              while (curr->next && curr->val == curr->next->val) {
+                  curr = curr->next;
+              }
+
+              if (prev->next != curr) {
+                  prev->next = curr->next;
+              } else {
+                  prev = curr;
+              }
+
+              curr = curr->next;
+          }
+
+          return dummy.next;
+      }
+  };
+  ```
