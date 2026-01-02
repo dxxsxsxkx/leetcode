@@ -152,3 +152,8 @@ public:
     - `dummy(-1000)`のような書き方は direct initialization / user-defined constructorか。
 
 - [メモリリーク問題](https://github.com/jiku0730/LeetCode/pull/11#discussion_r2146798981)。
+
+# Step 3
+
+問題なく書けた。が、名付けについて `first_digit` は与えられるリストの1桁目（つまり一番最初の要素）と混同されてしまうかもしれないと思った。
+`remainder` を使うことを考えたが、「余り」というのは `sum % 10` の結果としての意味しか持たないのでよくなさそうだと思った。
