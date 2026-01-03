@@ -13,7 +13,7 @@ public:
                 st.push(c);
                 continue;
             }
-            if (st.size() == 0) return false;
+            if (st.empty()) return false;
             if (pairs_parentheses[st.top()] != c) return false; 
             st.pop();
         }

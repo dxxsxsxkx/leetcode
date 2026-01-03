@@ -12,7 +12,7 @@ public:
             if (pairs_parentheses.contains(c)) {
                 st.push(c);
             } else {
-                if (st.size() == 0) return false;
+                if (st.empty()) return false;
                 if (c == pairs_parentheses[st.top()]) {
                     st.pop();
                 } else {
