@@ -99,3 +99,41 @@ ChatGPT に聞くと、LeetCode 側が返ってきたリストを delete する�
 # Step 3
 
 問題なく書けた。
+
+# Step 4
+
+「左から矢印を逆向きにする」やつをやってみる（[参照](https://github.com/dxxsxsxkx/leetcode/pull/7#discussion_r2660820656)）。
+まずあらかじめに、ひっくり返した先の終点（null）を参照するポインタを作る。
+次に、リストを左から走査してポインタをひっくり返していく。
+この時、あらかじめ次の参照先を取得しておくのが重要（現在のノードの参照先は更新されてしまうので）。
+
+
+```cpp
+/**
+ * Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     ListNode *next;
+*     ListNode() : val(0), next(nullptr) {}
+*     ListNode(int x) : val(x), next(nullptr) {}
+*     ListNode(int x, ListNode *next) : val(x), next(next) {}
+* };
+*/
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* reversed = nullptr; 
+        ListNode* current = head; 
+        ListNode* next_node = nullptr; 
+
+        while (current) {
+            next_node = current->next; 
+            current->next = reversed; 
+            reversed = current; 
+            current = next_node; 
+        }
+
+        return reversed; 
+    }
+};
+```
