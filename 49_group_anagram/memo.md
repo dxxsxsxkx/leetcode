@@ -76,3 +76,30 @@ map / unordered_mapについて。
 # Step 3
 
 同じ方針で書いた。
+
+# Step 4
+
+## Countで書く
+
+### コード
+
+調べながら`count.cpp`に書いた。色々わからなかったことがあるのでメモしておく。
+
+- [`ArrayHash`]構造体。アルファベットの出現回数を与えられると、それに対応する整数を一つ返す。
+
+  - `result = result * 31 + x` としているが、最低限 x が取りうる最大値よりも大きければ混ざらないことが保証される（ここでは strs の要素の長さよりも長ければ良いか？）。
+
+- [`size_t`](https://en.cppreference.com/w/cpp/types/size_t.html): 符号なし整数型で、その環境で扱える最大のオブジェクトサイズを最大値とする。固定サイズではない。
+
+  > std::size_t can store the maximum size of a theoretically possible object of any type (including array)
+
+  - Indexing などに使われるとあり、`unsigned int`と対比されている。インデックスの数が多くなった場合に壊れづらいということだろう。
+
+    - 試しに、`int` を使って書いてみると次のようなエラーが出る。長すぎるということ。32ビット環境では $-2^{31}$から$2^{31} - 1$ くらい。
+    > Line 29: Char 33: runtime error: signed integer overflow: 887504642 * 31 cannot be represented in type 'int' (solution.cpp)
+
+  - もちろんいくらでも表現できるわけではなく、「環境で扱える最大のオブジェクトサイズ」を超えたものを作ろうとするとうまくいかない。現実のメモリ空間に対応した上限がある。
+
+- `c - 'a'` のところ、何をしているのか最初はわからなかったので、調べた：`char` は内部では整数型であり、ASCIIコードを使ってマッピングされている。`c - 'a'`というのはcがaに対応するコードから何番目になっているかを計算している。例えば`'a' - 'a'`であれば0番目を指すことになる。
+
+- [無駄なコピーを減らす](https://github.com/Ryotaro25/leetcode_first60/pull/13/commits/2416b565cd8a2a983b8cab3543d1b0d32dbc4649#r1636916877)。この話はもう少しちゃんと理解しておきたい。
