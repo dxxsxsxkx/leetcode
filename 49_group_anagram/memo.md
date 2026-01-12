@@ -103,3 +103,45 @@ map / unordered_mapについて。
 - `c - 'a'` のところ、何をしているのか最初はわからなかったので、調べた：`char` は内部では整数型であり、ASCIIコードを使ってマッピングされている。`c - 'a'`というのはcがaに対応するコードから何番目になっているかを計算している。例えば`'a' - 'a'`であれば0番目を指すことになる。
 
 - [無駄なコピーを減らす](https://github.com/Ryotaro25/leetcode_first60/pull/13/commits/2416b565cd8a2a983b8cab3543d1b0d32dbc4649#r1636916877)。この話はもう少しちゃんと理解しておきたい。
+
+### メモ
+
+[Odaさんのコメント](https://github.com/dxxsxsxkx/leetcode/pull/12#discussion_r2679876209)
+
+- 衝突しづらい hash について調べてみる。いくつかの基準があって、1. 非線形性（入力に対してhashがsensitive）、2. 拡散性（より多くの桁に影響が広がりやすい）、3. 攻撃耐性（意図的な衝突を作りにくい）などがある。
+この中から実装可能性の制約に応じて使えるものを使うのが良いのだろう。
+
+  - Hash combine: 例えば以下では、入力をハッシュ化した上で左右へのシフトを加えたものと足し合わせ、最後に元のハッシュと排他的論理和を取っている。
+  ```cpp
+  struct ArrayHash {
+    size_t operator()(const std::array<int, 26>& a) const {
+        size_t seed = 0;
+        for (int x : a) {
+            seed ^= std::hash<int>{}(x) + 0x9e3779b97f4a7c15ULL
+                    + (seed << 6) + (seed >> 2);
+        }
+        return seed;
+    }
+  };
+  ```
+
+  - Two-choice hashing: 例えば、h2を1ビット左にシフトして排他的論理和をとる。各桁の値が独立に混合されるのがポイント。
+  ```cpp
+  struct ArrayHash {
+    size_t operator()(const std::array<int, 26>& a) const {
+        size_t h1 = 0, h2 = 0;
+        for (int x : a) {
+            h1 = h1 * 1315423911u + x;
+            h2 = h2 * 2654435761u + x;
+        }
+        return h1 ^ (h2 << 1);
+    }
+  };
+  ```
+
+- [Wiki](https://en.wikipedia.org/wiki/Hash_table#Collision_resolution)の Hash table のページにも項がある。
+Hash function による部分と衝突対応による部分がある。上に書いたのは hash function をいじる方法だが、後者も重要そう。
+
+  - 衝突対応の代表的な方法として separate chaining (衝突したアイテムを singly linked list としてまとめて / ぶら下げて、端から辿っていけるようにする) と 
+  open addressing (全てのアイテムを bucket array に入れ、衝突が発生した場合には再度ハッシュを生成する - つまり空のアドレスを探す) が挙げられている。
+
