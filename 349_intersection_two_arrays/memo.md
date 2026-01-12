@@ -174,3 +174,32 @@ public:
 # Step 3
 
 問題なくかけた。swapを入れたりした。
+
+# Step 4
+
+Unordered_map の key について。
+
+- [日本語レファレンス](https://cpprefjp.github.io/reference/unordered_map/unordered_map.html)より、以下のように定義されている。確かにconstになっている...。
+  ```cpp
+  namespace std {
+    template <class Key,
+              class T,
+              class Hash = std::hash<Key>,
+              class Pred = std::equal_to<Key>,
+              class Allocator = std::allocator<std::pair<const Key, T> > >
+    class unordered_map;
+
+    namespace pmr {
+      template <class Key,
+                class T,
+                class Hash = hash<Key>,
+                class Pred = equal_to<Key>>
+        using unordered_map =
+          std::unordered_map<Key, T, Hash, Pred,
+                            polymorphic_allocator<pair<const Key, T>>>;  // C++17から
+
+    }
+  }
+  ```
+
+- keyが変更されるとハッシュ値とバケットの位置がずれてしまう。
