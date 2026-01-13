@@ -181,3 +181,15 @@ public:
 # Step 3
 
 問題なくかけた。
+
+# Step 4
+
+## メモ
+
+Return value optimization (RVO) について、[日本語レファレンス](https://cpprefjp.github.io/lang/cpp17/guaranteed_copy_elision.html)より。
+
+> prvalueというカテゴリーの値を、オブジェクトの初期化のために使用する場合に、コピーが省略される。
+
+- C++17で採用された仕様で、オブジェクトを初期化する場合にのみ機能する。代入では効かない。
+
+- prvalue: pure rvalue、直感的には「値そのもの」のイメージ。つまりメモリ上の場所を指さない・一時的な値として振る舞う・参照できない。

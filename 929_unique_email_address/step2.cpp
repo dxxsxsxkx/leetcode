@@ -9,7 +9,7 @@ public:
         
         for (const auto& email : emails) {
             if (!email.contains('@')) {  // requires C++23
-              break; 
+              break;  // should have been "continue"
             }
 
             size_t idx_at = email.find('@'); 
