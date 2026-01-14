@@ -30,7 +30,7 @@ public:
             }
         }
 
-        if (idx_smallest == 100000) {
+        if (idx_smallest == 100000 + 1) {
             idx_smallest = -1; 
         }
         return idx_smallest; 
@@ -138,3 +138,12 @@ public:
 # Step 3
 
 問題なく書けた。
+
+# Step 4
+
+マジックナンバーなど
+
+- 上から評価していくときに `int above_maximum =  100001` としておくとよさそう。
+
+- [参照](https://docs.google.com/document/d/11HV35ADPo9QxJOpJQ24FcZvtvioli770WWdZZDaLOfg/edit?tab=t.0#heading=h.jdtk9v35bca4)。
+ある時点での given な制約を当てにしすぎないほうが良いということ。
