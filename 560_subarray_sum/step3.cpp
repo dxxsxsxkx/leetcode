@@ -7,14 +7,14 @@ public:
         std::map<int, int> cumsum_count; 
         cumsum_count[0] = 1; 
         int cumsum = 0; 
-        int count_k = 0; 
+        int k_count = 0; 
 
         for (int num : nums) {
             cumsum += num; 
-            cumsum_count[cumsum]++; 
             if (cumsum_count.contains(cumsum - k)) {
                 count_k += cumsum_count[cumsum - k]; 
             }
+            cumsum_count[cumsum]++; 
         }
 
         return count_k; 
