@@ -38,8 +38,8 @@ public:
         }; 
 
         int count_islands = 0; 
-        for (int r = 0; r < height; r++) {
-            for (int c = 0; c < width; c++) {
+        for (int r = 0; r < height; ++r) {
+            for (int c = 0; c < width; ++c) {
                 if (grid[r][c] == '1' && !visited_lands.contains({r, c})) {
                     visited_lands.emplace(r, c); 
                     exploreIsland(r, c); 

@@ -8,6 +8,7 @@ public:
     int numIslands(std::vector<std::vector<char>>& grid) {
         int height = grid.size(); 
         int width = grid[0].size(); 
+        char land = '1'; 
         std::set<std::pair<int, int>> visited_lands; 
 
         auto recordIsland = [&](std::stack<std::pair<int, int>>& st, int r_now, int c_now) {
