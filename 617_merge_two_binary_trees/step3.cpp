@@ -36,7 +36,6 @@ public:
 
             TreeNode* left1 = node1 ? node1->left : nullptr;
             TreeNode* left2 = node2 ? node2->left : nullptr;
-
             if (left1 || left2) {
                 int new_left_val = (left1 ? left1->val : 0) + (left2 ? left2->val : 0);
                 new_node->left = new TreeNode(new_left_val);
@@ -45,7 +44,6 @@ public:
 
             TreeNode* right1 = node1 ? node1->right : nullptr;
             TreeNode* right2 = node2 ? node2->right : nullptr;
-
             if (right1 || right2) {
                 int new_right_val = (right1 ? right1->val : 0) + (right2 ? right2->val : 0);
                 new_node->right = new TreeNode(new_right_val);
