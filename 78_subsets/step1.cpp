@@ -14,10 +14,10 @@ public:
 
         auto subset_from_remains = subsets(remaining);
 
-        for (auto s : subset_from_remains) {
+        for (auto& s : subset_from_remains) {
             subset.push_back(s);
-            s.insert(s.begin(), first);
-            subset.push_back(s);
+            s.push_back(first);
+            subset.push_back(std::move(s));
         }
 
         return subset;
